@@ -1,0 +1,19 @@
+.option-wrap {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px;
+}
+
+.option {
+    border-radius: 6px;
+    border: 1px solid #000;
+    padding: 4px 10px;
+    display: flex;
+    align-self: flex-end;
+}
+
+.option p {
+    font-size: 14px;
+    color: #000;
+}
+
