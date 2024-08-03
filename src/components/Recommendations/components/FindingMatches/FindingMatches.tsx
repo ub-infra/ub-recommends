@@ -7,8 +7,8 @@ import "./FindingMatches.css";
 const FindingMatches = () => {
   return (
     <div className="matches-container">
-      <p className="title">We’re finding you best matches</p>
-      <p className="subtitle">Just a lil bit</p>
+      <p className="popup-title">We’re finding you best matches</p>
+      <p className="popup-subtitle">Just a lil bit</p>
 
       {/* <Image
         src={Searching}

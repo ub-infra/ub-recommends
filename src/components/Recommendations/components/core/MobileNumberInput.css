@@ -14,22 +14,26 @@
     border-radius: 6px;
     overflow: hidden;
     width: 100%;
+    flex-direction: row;
 }
 
 .select-country{
     background-color: #fff;
+    border: 0;
     border-right: 1px solid #c1c1c1;
     padding: 8px;
     color: #27272a;
+    align-self: flex-start;
 }
 
 .select-country:focus{
     outline: none;
 }
 
-input {
+.mobile-input {
     padding: 8px;
     color: #000;
+    flex: 1;
 }
 
 input:focus{

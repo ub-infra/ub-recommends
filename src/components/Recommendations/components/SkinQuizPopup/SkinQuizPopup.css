@@ -3,12 +3,12 @@
   flex-wrap: wrap;
   justify-content: flex-end;
 }
-.heading {
+.skin-heading {
   font-size: 16px;
   font-weight: 500;
   text-align: left;
 }
-.subheading {
+.skin-subheading {
   font-size: 12px;
   font-weight: 300;
   text-align: left;

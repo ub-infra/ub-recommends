@@ -22,7 +22,7 @@ const ProductList = () => {
         </div>
       </div>
       <div className="card-wrap" style={{border: 0}}>
-        <p className="title">
+        <p className="product-title">
           Yay! We’ve found your matches
         </p>
         <div className="row-centered">

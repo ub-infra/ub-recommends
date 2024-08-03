@@ -32,10 +32,10 @@ function SkinQuizPopup() {
           noEdit={true}
         />
       </div>
-      <p className="heading">
+      <p className="skin-heading">
         What recommendations are you looking for?
       </p>
-      <p className="subheading">Select one</p>
+      <p className="skin-subheading">Select one</p>
       <Option
         label="Selct this"
         onClick={() => console.log("inGGGG")}
