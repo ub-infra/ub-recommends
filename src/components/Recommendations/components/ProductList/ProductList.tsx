@@ -1,49 +1,102 @@
-// import Image from "next/image";
-import React from "react";
-// import EditPen from "../../../../assets/svgs/EditPen.svg";
-// import PointingFinger from "../../../../assets/svgs/PointingFinger.svg";
+import React, { useEffect, useState } from "react";
 import OptionSelected from "../core/OptionSelected";
 import ProductCard from "../core/ProductCard";
 import './ProductList.css'
+import EditPen from "../../../../assets/svgs/EditPen";
+import PointingFinger from "../../../../assets/svgs/PointingFinger";
 
-const ProductList = () => {
+interface produtListInterface {
+  products: any;
+  productsInfo: any;
+  profileInfo: any;
+  onClickProduct: (x: any, y: any) => void;
+}
+
+const ProductList = ({
+  products,
+  productsInfo,
+  profileInfo,
+  onClickProduct,
+}: produtListInterface) => {
+  const [profileValues, setProfileValues] = useState<string[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const extractValues = (obj: any) => {
+    let values: string[] = [];
+
+    for (let key in obj) {
+      if (Array.isArray(obj[key])) {
+        values = values.concat(obj[key]);
+      } else {
+        values.push(obj[key]);
+      }
+    }
+    return values;
+  };
+
+  useEffect(() => {
+    if (productsInfo) {
+      const values = extractValues(profileInfo);
+      setProfileValues(values);
+    }
+  }, [profileInfo]);
+
+  useEffect(() => {
+    let allProds: string[] = [];
+    for (let i = 0; i < products.length; i++) {
+      const element = products[i];
+      if (element?.products) {
+        allProds = [...allProds, ...element.products];
+      }
+    }
+    setAllProducts([...allProds]);
+  }, [productsInfo]);
+
   return (
-    <div>
-    <div className="product-list-container">
-      <div className="card-wrap">
-        <div className="title-row">
-          <p>About</p>
-          {/* <Image src={EditPen} width={20} height={20} alt="Edit" /> */}
+    <div style={{marginTop: 10}}>
+      <div className="product-list-container">
+        <div className="card-wrap">
+          <div className="title-row">
+            <p>About</p>
+            <div>
+              <EditPen />
+            </div>
+          </div>
+          {/* <div style={{overflowX: "hidden"}}> */}
+          <div className="selected-opts">
+            {profileValues?.map((val: any) => (
+              <>
+                {val?.length > 0 ? (
+                  <OptionSelected
+                    noEdit
+                    label={val}
+                    onClick={() => console.log("")}
+                  />
+                ) : (
+                  <></>
+                )}
+              </>
+            ))}
+            {/* </div> */}
+          </div>
         </div>
-        <div className="flex flex-wrap mt-2.5">
-          <OptionSelected noEdit label="dnlkd" onClick={() => console.log('')}/>
-          <OptionSelected noEdit={true} label="jcnvjkfnq" onClick={() => console.log('ijdkf')}/>
-          <OptionSelected noEdit={false} label="jcnvjkfnq" onClick={() => console.log('ijdkf')}/>
+        <div className="card-wrap-2">
+          <p>Yay! We’ve found your matches</p>
+          <div className="row-centered">
+            <p className="">Check out your matched products</p>
+            <PointingFinger />
+          </div>
         </div>
       </div>
-      <div className="card-wrap" style={{border: 0}}>
-        <p className="product-title">
-          Yay! We’ve found your matches
-        </p>
-        <div className="row-centered">
-          <p className="">
-            Check out your matched products
-          </p>
-          {/* <Image src={PointingFinger} height={30} width={30} alt="products" /> */}
-        </div>
-      </div>
-      </div>
-      <div className="flex overflow-x-scroll space-x-4 mt-4 pb-2.5">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+      <div className="products-row">
+        {allProducts?.map((item: any) => (
+          <ProductCard
+            item={item}
+            meta={productsInfo?.product_meta?.[item?.id]}
+            onClickProduct={() =>
+              onClickProduct(item, productsInfo?.product_meta?.[item?.id])
+            }
+          />
+        ))}
       </div>
     </div>
   );

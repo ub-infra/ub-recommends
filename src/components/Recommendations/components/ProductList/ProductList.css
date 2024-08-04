@@ -1,4 +1,4 @@
-.product-list-container {
+/* .product-list-container {
   display: flex;
   flex-direction: column;
 }
@@ -33,6 +33,74 @@
 .row-centered {
     display: flex;
     justify-content: center;
+}
+
+.row-centered p {
+    font-size: 12px;
+    font-weight: 300;
+    color: #b2b2b2;
+    align-self: center;
+}
+@media only screen and (min-width: 500px) {
+  .product-list-container {
+    flex-direction: row-reverse;
+  }
+  .card-wrap {
+    padding: 6px;
+    width: 50%;
+    margin-left: 4px;
+  }
+}
+ */
+
+.product-list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-wrap {
+  border: 1px solid #c1c1c1;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.card-wrap-2 {
+  border: 0;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #c1c1c1;
+}
+
+.title-row p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
+.card-wrap p {
+    font-size: 20px;
+    color: #000;
+    font-weight: 600;
+}
+
+.card-wrap-2 p {
+  font-size: 20px;
+  color: #000;
+  font-weight: 600;
+}
+
+.row-centered {
+    display: flex;
+    justify-content: center;
     /* margin-top: 8px; */
 }
 
@@ -51,4 +119,51 @@
     width: 50%;
     margin-left: 4px;
   }
+
+  .card-wrap-2 {
+    border: 1px solid #c1c1c1;
+  }
+}
+
+
+/* .container {
+  display: flex;
+  overflow-x: scroll;
+} */
+
+/* .option-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2px;
+} */
+
+.selected-opts {
+  display: flex;
+  margin-top: 10px;
+  overflow-x: scroll;
+  /* flex mt-2.5 overflow-x-scroll */
+}
+
+.option {
+  border-radius: 6px;
+  border: 1px solid #000;
+  padding: 4px 10px;
+  display: flex;
+  align-self: flex-end;
+  cursor: pointer;
+  flex-shrink: 0; /* Prevents shrinking */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.option p {
+  font-size: 14px;
+  color: #000;
+}
+
+.products-row {
+  display: flex;
+  overflow-x: scroll;
+  margin-top: 16px;
+  padding: 10px;
+  /* flex overflow-x-scroll space-x-4 mt-4 pb-2.5 */
 }

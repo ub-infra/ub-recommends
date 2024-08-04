@@ -3,14 +3,48 @@
   flex-wrap: wrap;
   justify-content: flex-end;
 }
-.skin-heading {
+.quiz-heading {
   font-size: 16px;
   font-weight: 500;
   text-align: left;
+  color: #000;
+  margin-bottom: 0;
+  margin-top: 6px;
 }
-.skin-subheading {
+.subheading {
   font-size: 12px;
   font-weight: 300;
   text-align: left;
   color: #b2b2b2;
+}
+
+.text-input {
+  border: 1px solid #c1c1c1;
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+  text-align: right;
+  color: #000;
+  margin-top: 16px;
+}
+
+.submit-btn {
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 16px;
+  margin-top: 12px;
+  width: 100%;
+  background-color: #27272a;
+  border-radius: 6px;
+}
+
+.row-end {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.goback {
+  cursor: pointer;
+  margin-left: 10px;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import "./LandingPopup.css";
+import Banner from "../../../../assets/svgs/Banner";
 
 interface LandindPopupProps {
   onClick: () => void;
@@ -18,7 +19,9 @@ const LandingPopup = (props: LandindPopupProps) => {
         </p>
       </div>
       <div>
-        <img src="../../CoinKing.png" style={{ height: 485, width: 380 }} />
+        <div>
+        <Banner />
+        </div>
       </div>
       <button
         className="button"
