@@ -27,7 +27,7 @@ const ProductDetails = ({product, meta}: produInterface) => {
   const usersRecommended = meta?.platform?.[0]?.recommendation_meta?.experts_count + meta?.platform?.[0]?.recommendation_meta?.users_count
   
   return (
-    <div style={{marginTop: 10}}>
+    <div style={{marginTop: 10, minHeight: 460}}>
       <div className="prod-details-card flx relative details">
         <img
           src={generateImageUrl(product?.images)}

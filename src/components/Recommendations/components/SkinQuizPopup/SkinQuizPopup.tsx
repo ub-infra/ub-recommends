@@ -4,6 +4,7 @@ import "./SkinQuizPopup.css";
 import { skinQuestions } from "../../constants/questions";
 import OptionSelected from "../core/OptionSelected";
 import GoBack from "../../../../assets/svgs/GoBack";
+import SkinTypeIdentifier from "../SkinTypeIdentifier/SkinTypeIdentifier";
 
 interface IndexValueItem {
   value: any;
@@ -27,6 +28,7 @@ interface PopupProps {
 }
 
 const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
+  const [show, setShow] = useState(false);
   const [profileInfo, setProfileInfo] = useState<ProfileInfoItem>({
     gender: "",
     age: 0,
@@ -40,6 +42,7 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
   });
   const [indexValue, setIndexValue] = useState({});
   const [indexValues, setIndexValues] = useState<IndexValueItem[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
 
@@ -68,6 +71,7 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
 
   const onSelect = (val: string) => {
     if (val == "I don’t know" && key == "skinType") {
+      setShow(true);
     } else {
       if (key == "skinGoals" || key == "hairConcern") {
         const arr = profileInfo?.[key] ?? [];
@@ -186,6 +190,17 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
       </div>
       <p className="quiz-heading">{question}</p>
       <p className="subheading">{desc ?? "Select one"}</p>
+      <div style={{ margin: -16, zIndex: 100 }}>
+        {show && (
+          <SkinTypeIdentifier
+            onComplete={(type) => {
+              onSelect(type);
+              setShow(false);
+            }}
+            onClose={() => setShow(false)}
+          />
+        )}
+      </div>
       {options?.length ? (
         options?.map((opt: any) => (
           <Option
@@ -206,6 +221,13 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
       {/* <SearchBar /> */}
       {/* <LoveHateCard /> */}
       {/* <FindingMatches /> */}
+      {errorMessage?.length > 2 && <div style={{display: "flex", justifyContent:'flex-end', marginTop: 10}}>
+        <div style={{alignSelf: 'center'}}>
+          <Error />
+        </div>
+        <p style={{color: 'red', fontWeight: 300, fontSize: 12, marginLeft: 6}}>Please select 3 concerns</p>
+      </div>}
+
       {key == "stress" && (
         <button className="submit-btn" onClick={onClickSubmit} type="submit">
           Submit

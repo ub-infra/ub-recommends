@@ -1,7 +1,4 @@
-// import Image from "next/image";
 import React from "react";
-// import Searching from "./searching.gif";
-import MobileNumberInput from "../core/MobileNumberInput";
 import "./FindingMatches.css";
 
 const FindingMatches = () => {
@@ -11,7 +8,7 @@ const FindingMatches = () => {
       <p className="popup-subtitle">Just a lil bit</p>
 
       <img
-        src={"./searching.gif"}
+        src={'https://ubprodstorage.blob.core.windows.net/ubprodcontainer/static/challenge/H/L/gV8PVsCwK2iayfFbPtGV8.jpeg'}
         height={240}
         width={320}
         alt="searching..."
