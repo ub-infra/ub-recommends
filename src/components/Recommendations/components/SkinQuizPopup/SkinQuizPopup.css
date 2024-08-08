@@ -49,3 +49,27 @@
   cursor: pointer;
   margin-left: 10px;
 }
+
+.error-contain {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.error-contain p {
+  color: red;
+  font-weight: 300;
+  font-size: 12px;
+  margin-left: 6px;
+  align-self: center;
+}
+
+.select-city {
+  border: 1px solid #c1c1c1;
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+  text-align: right;
+  color: #000;
+  margin-top: 16px !important;
+}

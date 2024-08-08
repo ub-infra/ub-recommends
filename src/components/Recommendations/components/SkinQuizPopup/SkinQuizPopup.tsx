@@ -5,6 +5,8 @@ import { skinQuestions } from "../../constants/questions";
 import OptionSelected from "../core/OptionSelected";
 import GoBack from "../../../../assets/svgs/GoBack";
 import SkinTypeIdentifier from "../SkinTypeIdentifier/SkinTypeIdentifier";
+import Error from "../../../../assets/svgs/Error";
+import { cities } from "../../constants/citylist";
 
 interface IndexValueItem {
   value: any;
@@ -42,7 +44,7 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
   });
   const [indexValue, setIndexValue] = useState({});
   const [indexValues, setIndexValues] = useState<IndexValueItem[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
 
@@ -74,6 +76,7 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
       setShow(true);
     } else {
       if (key == "skinGoals" || key == "hairConcern") {
+        setErrorMessage('')
         const arr = profileInfo?.[key] ?? [];
         if (arr?.includes(val)) {
           const updatedArr = arr?.filter((x: any) => x !== val);
@@ -209,25 +212,38 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
             isSelected={checkSelected(opt) || false}
           />
         ))
+      ) : key == "location" ? (
+        <select className="select-city" defaultValue="" onChange={(e) => {
+          setProfileInfo({...profileInfo, location: e.target.value})
+          hanldeSetIndexValue(e.target.value)
+          }}>
+          <option value="" disabled>
+            {"Select city"}
+          </option>
+          {cities?.map(({ label, value }) => (
+            <option value={value}>{label}</option>
+          ))}
+        </select>
       ) : (
         <input
           type="text"
           className="text-input"
           placeholder={placeholder}
           value={key == "age" ? age : location ?? ""}
-          onChange={(e) => handleInputChange(e.target.value)}
+          onChange={(e) => {
+            handleInputChange(e.target.value)
+            hanldeSetIndexValue(e.target.value)
+          }}
         />
       )}
-      {/* <SearchBar /> */}
-      {/* <LoveHateCard /> */}
-      {/* <FindingMatches /> */}
-      {errorMessage?.length > 2 && <div style={{display: "flex", justifyContent:'flex-end', marginTop: 10}}>
-        <div style={{alignSelf: 'center'}}>
-          <Error />
+      {errorMessage?.length > 2 && (
+        <div className="error-contain">
+          <div style={{ alignSelf: "center" }}>
+            <Error />
+          </div>
+          <p>Please select 3 concerns</p>
         </div>
-        <p style={{color: 'red', fontWeight: 300, fontSize: 12, marginLeft: 6}}>Please select 3 concerns</p>
-      </div>}
-
+      )}
       {key == "stress" && (
         <button className="submit-btn" onClick={onClickSubmit} type="submit">
           Submit
@@ -243,7 +259,13 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
         <div
           style={{ rotate: "180deg" }}
           className="goback"
-          onClick={() => (showBtn ? setIndex(index + 1) : console.log(""))}
+          onClick={() =>
+            showBtn
+              ? setIndex(index + 1)
+              : key == "skinGoals" && profileInfo?.skinGoals?.length < 3
+              ? setErrorMessage("Select 3 skin concerns")
+              : console.log("")
+          }
         >
           <GoBack />
         </div>

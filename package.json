@@ -3,7 +3,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/ub-infra"
   },
-  "version": "1.6.4",
+  "version": "1.6.7",
   "description": "Recommended by Unsweetened Beauty",
   "main": "dist/cjs/index.js",
   "type": "module",
