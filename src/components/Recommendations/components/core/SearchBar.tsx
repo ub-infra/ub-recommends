@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import './SearchBar.css'
 
-const SearchBar = () => {
+interface SearchProps {
+  onFocus: () => void;
+  onChange: (x: string) => void;
+}
+const SearchBar = ({onFocus, onChange}: SearchProps) => {
   const [query, setQuery] = useState("");
 
   const handleInputChange = (e: any) => {
-    setQuery(e.target.value);
+    setQuery(e?.target?.value)
+    onChange(e?.target?.value);
   };
 
   const handleSearch = () => {
@@ -15,14 +20,7 @@ const SearchBar = () => {
   return (
     <div className="search-container">
       <div className="wrap">
-        <input
-          type="text"
-          className="input"
-          placeholder="Search..."
-          value={query}
-          onChange={handleInputChange}
-        />
-        <button
+      <button
           onClick={handleSearch}
           className="btn"
         >
@@ -41,6 +39,14 @@ const SearchBar = () => {
             ></path>
           </svg>
         </button>
+        <input
+          type="text"
+          className="search-prod"
+          placeholder="Search..."
+          value={query}
+          onChange={handleInputChange}
+          onFocus={onFocus}
+        />
       </div>
     </div>
   );

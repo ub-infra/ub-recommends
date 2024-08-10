@@ -7,11 +7,28 @@ import ProductDetails from "./components/ProductDetails/ProductDetails";
 import FindingMatches from "./components/FindingMatches/FindingMatches";
 import GoBack from "../../assets/svgs/GoBack";
 import Close from "../../assets/svgs/Close";
+import SkinAnalysis from "./components/SkinAnalysis/SkinAnalysis";
 
 export interface RecommendationProps {
   show: boolean;
   onClose: () => void;
 }
+
+const dummyInfo = {
+  gender: "female",
+  age: "25",
+  location: "",
+  skinType: "Oily",
+  skinGoals: [
+    "Reduce acne",
+    "Minimise pores",
+    "Reduce blackheads and/or whiteheads",
+  ],
+  bodyConcern: "Hyperpigmentation",
+  hairConcern: ["Hairfall", "Dandruff"],
+  stress: "Somewhat stressed",
+};
+
 const Recommendations = (props: RecommendationProps) => {
   if (!props?.show) return null;
   const [index, setIndex] = useState(0);
@@ -58,11 +75,17 @@ const Recommendations = (props: RecommendationProps) => {
   return (
     <div className="popup">
       {/* <div className="popup-content"> */}
-      <div className={`popup-content ${index === 3 ? 'index-2' : ''}`}>
+      <div className={`popup-content ${index === 3 ? "index-2" : ""}`}>
         <div className="row-between">
           <div
             style={{ cursor: "pointer" }}
-            onClick={() => (index > 0 ? index == 3 ? setIndex(index - 2) : setIndex(index - 1) : console.log(""))}
+            onClick={() =>
+              index > 0
+                ? index == 3
+                  ? setIndex(index - 2)
+                  : setIndex(index - 1)
+                : console.log("")
+            }
           >
             <GoBack />
           </div>
@@ -78,11 +101,18 @@ const Recommendations = (props: RecommendationProps) => {
             }}
           />
         ) : index == 1 ? (
-          <SkinQuizPopup
-            onSubmit={(info) => {
-              setProfileInfo(info);
+          //   <SkinQuizPopup
+          //     onSubmit={(info) => {
+          //       setProfileInfo(info);
+          //       setIndex(2);
+          //       fetchProducts(info);
+          //     }}
+          //   />
+          <SkinAnalysis
+            onClick={() => {
               setIndex(2);
-              fetchProducts(info);
+              setProfileInfo(dummyInfo);
+              fetchProducts(dummyInfo);
             }}
           />
         ) : index == 2 ? (
