@@ -20,17 +20,20 @@ const ProductList = ({
 }: produtListInterface) => {
   const [profileValues, setProfileValues] = useState<string[]>([]);
   const [allProducts, setAllProducts] = useState<any[]>([]);
+  
   const extractValues = (obj: any) => {
-    let values: string[] = [];
-
-    for (let key in obj) {
-      if (Array.isArray(obj[key])) {
-        values = values.concat(obj[key]);
+    const result = [];
+    for (const key in profileInfo) {
+      const item = profileInfo[key];
+      if (key === "skin_health") {
+        for (const innerKey in item) {
+          result.push(`${innerKey}(${item[innerKey].value})`);
+        }
       } else {
-        values.push(obj[key]);
+        result.push(item.value);
       }
     }
-    return values;
+    return result;
   };
 
   useEffect(() => {
@@ -40,16 +43,16 @@ const ProductList = ({
     }
   }, [profileInfo]);
 
-  useEffect(() => {
-    let allProds: string[] = [];
-    for (let i = 0; i < products.length; i++) {
-      const element = products[i];
-      if (element?.products) {
-        allProds = [...allProds, ...element.products];
-      }
-    }
-    setAllProducts([...allProds]);
-  }, [productsInfo]);
+  // useEffect(() => {
+  //   let allProds: string[] = [];
+  //   for (let i = 0; i < products.length; i++) {
+  //     const element = products[i];
+  //     if (element?.products) {
+  //       allProds = [...allProds, ...element.products];
+  //     }
+  //   }
+  //   setAllProducts([...allProds]);
+  // }, [productsInfo]);
 
   return (
     <div style={{marginTop: 10}}>
@@ -88,7 +91,7 @@ const ProductList = ({
         </div>
       </div>
       <div className="products-row">
-        {allProducts?.map((item: any) => (
+        {products?.map((item: any) => (
           <ProductCard
             item={item}
             meta={productsInfo?.product_meta?.[item?.id]}

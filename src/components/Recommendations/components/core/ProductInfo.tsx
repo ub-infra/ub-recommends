@@ -16,12 +16,12 @@ const ProductInfo = ({item, onClick}: ProductProps) => {
             className="category"
             style={{ fontSize: 10 }}
           >
-            {item?.category}
+            {item?.sub_category}
           </p>
           <p className="name" style={{marginTop: 4}}>
             {item?.price ?? item?.source_price ?? item?.source_mrp}{" "}
             {item?.source_mrp && <span className='category'>
-              ₹{item?.source_mrp}
+              ₹{item?.mrp}
             </span>}
           </p>
           <button className="buybtn" onClick={onClick}>

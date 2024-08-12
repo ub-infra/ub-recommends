@@ -30,16 +30,16 @@ const generateImageUrl = (images: string) => {
 };
 
 const ProductCard = ({ item, meta, onClickProduct }: ProductProps) => {
-  const users = meta?.platform?.[0]?.recommendation_meta?.users_count;
-  const experts = meta?.platform?.[0]?.recommendation_meta?.experts_count;
+  // const users = meta?.platform?.[0]?.recommendation_meta?.users_count;
+  const experts = item?.recommended_count;
   const imageUrl = generateImageUrl(item?.images);
 
   return (
     <>
-      {item?.price || item?.source_price || item?.source_mrp ? (
+      {item?.mrp ? (
         <div className="prod-card">
           <img
-            src={imageUrl}
+            src={item?.image_url}
             width={160}
             height={145}
             alt="product image"
@@ -49,19 +49,19 @@ const ProductCard = ({ item, meta, onClickProduct }: ProductProps) => {
           <div className="score">
             <Star />
             <p>
-              {item?.match}%<span>{""} Matched</span>
+              {item?.match_score}%<span>{""} Matched</span>
             </p>
           </div>
           <ProductInfo item={item} onClick={onClickProduct} />
 
           <div className="recommended-by">
-            <p>{kFormatter(experts ?? 1527)} Users</p>
+            <p>{kFormatter(experts ?? 1527)} Experts</p>
             <p className="subtext">recommended</p>
           </div>
-          <div className="recommended-by">
+          {/* <div className="recommended-by">
             <p>{kFormatter(users ?? 1824)} Experts</p>
             <p className="subtext">recommended</p>
-          </div>
+          </div> */}
         </div>
       ) : (
         <></>

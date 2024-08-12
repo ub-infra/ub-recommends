@@ -29,7 +29,8 @@ const SelectFavouriteProducts = ({
   };
 
   const [filteredList, setFilteredList] = useState([]);
-  const handleSearch = (query: string) => {
+  const handleSearch = (queryString: string) => {
+    const query = queryString?.toLocaleLowerCase();
     setShow(true);
     if (query?.length > 2) {
       const arr = products?.filter(

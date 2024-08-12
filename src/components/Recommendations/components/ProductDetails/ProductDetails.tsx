@@ -29,14 +29,14 @@ const generateImageUrl = (images: string) => {
 };
 
 const ProductDetails = ({ product, meta }: produInterface) => {
-  const users = meta?.platform?.[0]?.recommendation_meta?.users_count;
-  const experts = meta?.platform?.[0]?.recommendation_meta?.experts_count;
+  // const users = meta?.platform?.[0]?.recommendation_meta?.users_count;
+  const users = product?.recommended_count;
 
   return (
     <div style={{ marginTop: 10, minHeight: 460 }}>
       <div className="prod-details-card flx relative details">
         <img
-          src={generateImageUrl(product?.images)}
+          src={product?.image_url}
           width={104}
           height={104}
           alt="product image"
@@ -45,13 +45,13 @@ const ProductDetails = ({ product, meta }: produInterface) => {
         <div style={{ marginLeft: 10 }}>
           <ProductInfo
             item={product}
-            onClick={() => window.open(product?.source_href, "_blank")}
+            onClick={() => window.open(product?.redirection_link ?? "https://mylofamily.com/", "_blank")}
           />
         </div>
         <div className="score">
           <Star />
           <p>
-            {product?.match}%<span>{""} Matched</span>
+            {product?.match_score}%<span>{""} Matched</span>
           </p>
         </div>
       </div>
@@ -65,10 +65,10 @@ const ProductDetails = ({ product, meta }: produInterface) => {
           <span>{kFormatter(users ?? 1824)}+ Users </span>like you recommended
           this or similar products
         </p>
-        <p className="rec-count">
+        {/* <p className="rec-count">
           <span>{kFormatter(experts ?? 1527)}+ Experts </span>recommended this
           or similar products
-        </p>
+        </p> */}
       </div>
     </div>
   );

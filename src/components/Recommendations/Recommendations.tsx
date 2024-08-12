@@ -39,9 +39,8 @@ const Recommendations = (props: RecommendationProps) => {
   const [selectedMeta, setSelectedMeta] = useState({});
 
   const fetchProducts = (info: any) => {
-    const url = `https://app.unsweetenedbeauty.com/search/product/quiz`;
-    // const url = `http://localhost:8082/search/product/quiz/plugin/b2c`;
-    const data = { ...info };
+    const url = `https://app.unsweetenedbeauty.com/mylo/products/ai/data`;
+    const data = {skin_health : info?.skin_health}
     fetch(url, {
       method: "POST",
       headers: {
@@ -57,8 +56,8 @@ const Recommendations = (props: RecommendationProps) => {
       })
       .then((data) => {
         console.log("Success:THIS I SDATATTA HERE.....", data);
-        setProductsInfo(data);
-        setProducts(data?.items);
+        // setProductsInfo(data);
+        setProducts(data?.result);
         setIndex(3);
       })
       .catch((error) => {
@@ -109,10 +108,10 @@ const Recommendations = (props: RecommendationProps) => {
           //     }}
           //   />
           <SkinAnalysis
-            onClick={() => {
+            onClick={(skinHealth) => {
               setIndex(2);
-              setProfileInfo(dummyInfo);
-              fetchProducts(dummyInfo);
+              setProfileInfo(skinHealth);
+              fetchProducts(skinHealth);
             }}
           />
         ) : index == 2 ? (

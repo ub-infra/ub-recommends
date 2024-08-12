@@ -9,7 +9,7 @@ interface WebcamProps {
 
 const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
   const webcamRef = useRef<any>(null);
-
+  const [hasPermission, setHasPermission] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [capturing, setCapturing] = useState(false);
   const [imgSrc, setImgSrc] = useState<any>(null);
@@ -25,12 +25,12 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
 
     if (scanningIndex > 0 && path?.length > 0) {
       console.log("hein.....");
-
-      onComplete(path);
       setImgSrc(null);
       setImageFile(null);
       setScanningIndex(0);
       setPath("");
+      setScanning(true);
+      onComplete(path);
     }
     //   };
   }, [scanningIndex, path]);
@@ -86,13 +86,17 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
     const url = `https://app.unsweetenedbeauty.com/receipt/upload/image`;
 
     setLoading(true);
+    const headers = {
+      "Content-Type": "multipart/form-data",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVOdW1iZXIiOiI5MTk4ODY5NzU5MzciLCJ1c2VySUQiOiJFSUlMNk9RUGtIYTFKODlwMHZBczYiLCJjcmVhdGVkQXQiOjE2NzgxOTYzNDA3NDIsImlhdCI6MTY3ODE5NjM0MH0.ZKYRrNAPs1C6pIQklFUxcIKrsmXp2MWnamhz12uMldk",
+    };
 
     var data = new FormData();
     data.append("file", image);
     fetch(url, {
       method: "POST",
       body: data,
-      // headers,
     })
       .then((response) => {
         if (!response.ok) {
@@ -123,6 +127,33 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
     return file;
   };
 
+  const handleUserMedia = useCallback(() => {
+    setHasPermission(true);
+  }, []);
+
+  const handleUserMediaError = useCallback((error: any) => {
+    console.error("Camera permission denied:", error);
+    setHasPermission(false);
+  }, []);
+
+  const [permissionChecked, setPermissionChecked] = useState(false);
+
+  useEffect(() => {
+    // Prompt user for permission when the component mounts
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        setHasPermission(true);
+        setPermissionChecked(true);
+        stream.getTracks().forEach((track) => track.stop());
+      })
+      .catch((err) => {
+        console.error("Camera permission denied:", err);
+        setHasPermission(false);
+        setPermissionChecked(true);
+      });
+  }, []);
+
   return (
     <div
       style={{
@@ -145,67 +176,104 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
         </div>
       ) : (
         <>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width="100%"
-            height="100%"
-            videoConstraints={{ facingMode: "user" }}
-            mirrored
-          />
-          <div className="overlay">
-            <div className="oval">
-              {capturing && countdown > 0 && (
-                <span className="countdown">{countdown}</span>
+          {permissionChecked ? (
+            <>
+              {hasPermission ? (
+                <>
+                  <Webcam
+                    audio={false}
+                    ref={webcamRef}
+                    screenshotFormat="image/jpeg"
+                    // width="100%"
+                    // height="100%"
+                    // videoConstraints={{ facingMode: "user" }}
+                    // mirrored
+                    onUserMedia={handleUserMedia}
+                    onUserMediaError={handleUserMediaError}
+                    videoConstraints={{
+                      width: 380,
+                      height: 560,
+                      facingMode: "user",
+                    }}
+                    mirrored
+                    style={{ marginLeft: -10 }}
+                  />
+                  <div className="overlay">
+                    <div className="oval">
+                      {capturing && countdown > 0 && (
+                        <span className="countdown">{countdown}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: -30,
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {profile == 0 ? (
+                      <iframe
+                        src="https://lottie.host/embed/d894ed0e-520f-43fc-8794-d370ffc1c3e5/xwa2Jh0Lcn.json"
+                        width={180}
+                      ></iframe>
+                    ) : profile == 1 ? (
+                      <iframe
+                        src="https://lottie.host/embed/cd58fd25-a6e7-443b-b1a7-800ac70c9d6a/BTmwYmaEFY.json"
+                        width={180}
+                      ></iframe>
+                    ) : profile == 2 ? (
+                      <iframe
+                        src="https://lottie.host/embed/a1e388aa-7ccf-4657-8757-de1721e960e7/anAgAAs5r0.json"
+                        width={180}
+                      ></iframe>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <p style={{ textAlign: "center" }}>
+                    Camera permission is required to use this feature. please
+                    enable camera
+                  </p>
+                </div>
               )}
-            </div>
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              bottom: -30,
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            {profile == 0 ? (
-              <iframe
-                src="https://lottie.host/embed/d894ed0e-520f-43fc-8794-d370ffc1c3e5/xwa2Jh0Lcn.json"
-                width={180}
-              ></iframe>
-            ) : profile == 1 ? (
-                <iframe
-                src="https://lottie.host/embed/cd58fd25-a6e7-443b-b1a7-800ac70c9d6a/BTmwYmaEFY.json"
-                width={180}
-              ></iframe>
-            ) : profile == 2 ? (
-                <iframe
-                src="https://lottie.host/embed/a1e388aa-7ccf-4657-8757-de1721e960e7/anAgAAs5r0.json"
-                width={180}
-              ></iframe>
-            ) : (
-              <></>
-            )}
-          </div>
+            </>
+          ) : (
+            <>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <p style={{ textAlign: "center" }}>
+                  Checking camera permission...
+                </p>
+              </div>
+            </>
+          )}
         </>
       )}
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div
-          style={{
-            width: 58,
-            height: 62,
-            borderRadius: 82,
-            backgroundColor: "#27272A",
-            border: "2px solid #FFF",
-            cursor: "pointer",
-            position: "absolute",
-            bottom: -40,
-          }}
-          onClick={startCapture}
-        ></div>
-      </div>
+
+      {hasPermission ? (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              width: 58,
+              height: 62,
+              borderRadius: 82,
+              backgroundColor: "#27272A",
+              border: "2px solid #FFF",
+              cursor: "pointer",
+              position: "absolute",
+              bottom: -40,
+            }}
+            onClick={startCapture}
+          ></div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
