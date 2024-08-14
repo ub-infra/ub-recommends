@@ -1,21 +1,23 @@
 .prod-card {
   padding: 10px;
-  border: 1px solid #c1c1c1;
+  border: 1px solid #e4e4e7;
   border-radius: 6px;
   flex: none;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   position: relative;
+  width: 49%;
+  /* cursor: pointer; */
 }
 
 .prod-card p {
   text-align: start;
   margin-bottom: 0;
+
 }
 
 .recommended-by {
   margin-top: 6px;
   border-top: 1px solid #c1c1c1;
-  width: 160px;
 }
 
 .recommended-by p {
@@ -24,12 +26,14 @@
   font-weight: 500;
   margin-top: 2px;
   margin-bottom: 0;
+  flex: 1;
 }
 
 .subtext {
   font-weight: 300 !important;
   /* margin-top: 0; */
   margin-bottom: 0;
+  flex: 1;
 }
 
 .name {
@@ -38,10 +42,12 @@
   font-weight: 500;
   margin-top: 6px;
   white-space: nowrap;
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 0;
   text-align: start;
+  /* width: 100%; */
+  flex: 1;
 }
 
 .category {
@@ -87,7 +93,7 @@
   margin-bottom: 0;
 }
 
-.score p span{
+.score p span {
   font-size: 10px;
   color: #b1b1b1;
   font-weight: 300;

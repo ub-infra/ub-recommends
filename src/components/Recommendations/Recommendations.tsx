@@ -81,7 +81,8 @@ const Recommendations = (props: RecommendationProps) => {
   return (
     <div className="popup">
       {/* <div className="popup-content"> */}
-      <div className={`popup-content ${index === 4 ? "index-2" : ""}`}>
+      {/* <div className={`popup-content ${index === 4 ? "index-2" : ""}`}> */}
+      <div className="popup-content">
         <div className="row-between">
           <div
             style={{ cursor: "pointer" }}

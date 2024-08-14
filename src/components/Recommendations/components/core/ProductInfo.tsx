@@ -9,7 +9,7 @@ interface ProductProps {
 const ProductInfo = ({ item, onClick }: ProductProps) => {
   return (
     <>
-      <p className="name" style={{ width: 160 }}>
+      <p className="name">
         {item?.product_name}
       </p>
       <p className="category" style={{ fontSize: 10 }}>
@@ -25,9 +25,9 @@ const ProductInfo = ({ item, onClick }: ProductProps) => {
               ₹{item?.mrp}
             </span>} */}
       </p>
-      <button className="buybtn" onClick={onClick}>
+      {/* <button className="buybtn" onClick={onClick}>
         Buy Now
-      </button>
+      </button> */}
     </>
   );
 };

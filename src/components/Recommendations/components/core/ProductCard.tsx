@@ -37,11 +37,11 @@ const ProductCard = ({ item, meta, onClickProduct }: ProductProps) => {
   return (
     <>
       {item?.mrp ? (
-        <div className="prod-card">
+        <div className="prod-card" onClick={onClickProduct}>
           <img
             src={item?.image_url}
-            width={160}
-            height={145}
+            width={'100%'}
+            // height={145}
             alt="product image"
             // className="rounded"
             style={{ borderRadius: 4, height: 145, objectFit: "contain" }}

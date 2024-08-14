@@ -161,6 +161,18 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
     }
   };
 
+  const onClickNext = () => {
+    if (showBtn && profileInfo?.[key]?.length > (key == 'hairConcern' ? 0 : 1)) {
+      setIndex(index + 1);
+    } else if (key == "skinGoals") {
+      if (profileInfo?.skinGoals?.length < 3)
+        setErrorMessage("Select 3 skin concerns");
+      else setIndex(index + 1);
+    }
+  };
+
+  const enableCursor = (showBtn && profileInfo?.[key]?.length > (key == 'hairConcern' ? 0 : 1)) || (key == 'skinGoals' && profileInfo?.skinGoals?.length == 3)
+
   return (
     <div style={{ minHeight: 500 }}>
       <div className="options-row">
@@ -257,15 +269,16 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
           <GoBack />
         </div>
         <div
-          style={{ rotate: "180deg" }}
+          style={{ rotate: "180deg", cursor: enableCursor ? "pointer" : "no-drop" }}
           className="goback"
-          onClick={() =>
-            showBtn
-              ? setIndex(index + 1)
-              : key == "skinGoals" && profileInfo?.skinGoals?.length < 3
-              ? setErrorMessage("Select 3 skin concerns")
-              : console.log("")
-          }
+          onClick={onClickNext}
+          // onClick={() =>
+          //   showBtn
+          //     ? setIndex(index + 1)
+          //     : key == "skinGoals" && profileInfo?.skinGoals?.length < 3
+          //     ? setErrorMessage("Select 3 skin concerns")
+          //     : console.log("")
+          // }
         >
           <GoBack />
         </div>
