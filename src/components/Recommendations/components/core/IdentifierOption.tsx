@@ -48,7 +48,7 @@ const IdentifierOption = ({ isSelected, label, onClick }: OptionProps) => {
           <div className="radio-unchecked" />
         )}
       </div>
-      <p>{label}</p>
+      <p style={{marginBottom: 0}}>{label}</p>
     </div>
   );
 };

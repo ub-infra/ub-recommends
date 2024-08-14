@@ -20,20 +20,17 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
   const [path, setPath] = useState<string>("");
 
   useEffect(() => {
-    // const handleGoBack = (path: string) => {
-    console.log("here..............", scanningIndex, path);
-
     if (scanningIndex > 0 && path?.length > 0) {
-      console.log("hein.....");
       setImgSrc(null);
       setImageFile(null);
       setScanningIndex(0);
       setPath("");
       setScanning(true);
-      onComplete(path);
+      setTimeout(() => {
+        onComplete(path);
+      }, 100);
     }
-    //   };
-  }, [scanningIndex, path]);
+  }, [scanningIndex, path, scanning]);
 
   const startCapture = () => {
     setCapturing(true);
@@ -66,7 +63,6 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
       fileName
     );
     onPost(testImage);
-    console.log("This right here....", testImage);
     setImageFile(testImage);
     setScanning(true);
     setTimeout(() => {
@@ -84,14 +80,7 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
   const onPost = (image: any) => {
     if (loading) return;
     const url = `https://app.unsweetenedbeauty.com/receipt/upload/image`;
-
     setLoading(true);
-    const headers = {
-      "Content-Type": "multipart/form-data",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVOdW1iZXIiOiI5MTk4ODY5NzU5MzciLCJ1c2VySUQiOiJFSUlMNk9RUGtIYTFKODlwMHZBczYiLCJjcmVhdGVkQXQiOjE2NzgxOTYzNDA3NDIsImlhdCI6MTY3ODE5NjM0MH0.ZKYRrNAPs1C6pIQklFUxcIKrsmXp2MWnamhz12uMldk",
-    };
-
     var data = new FormData();
     data.append("file", image);
     fetch(url, {
@@ -106,8 +95,6 @@ const WebcamCapture = ({ onComplete, profile }: WebcamProps) => {
       })
       .then((data) => {
         const path = getImagePathString(data?.path);
-        // handleGoBack(path);
-        console.log("parth....", path);
         setPath(path);
       })
       .catch((error) => {

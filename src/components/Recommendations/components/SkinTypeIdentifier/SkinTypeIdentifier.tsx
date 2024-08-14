@@ -143,13 +143,15 @@ const SkinTypeIdentifier = ({
           </>
         ) : (
           <>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div className="skin-type">
+            <div className="skin-type-contain">
+              <div className="skin-type-res">
                 <p>{skinType}</p>
               </div>
-              <div onClick={() => onComplete(skinType)} className="thnx-btn">
+              {/* <div onClick={() => onComplete(skinType)} className="thnx-btn"> */}
+                <button onClick={() => onComplete(skinType)}>
                 Ok, Thanks
-              </div>
+                </button>
+              {/* </div> */}
             </div>
           </>
         )}

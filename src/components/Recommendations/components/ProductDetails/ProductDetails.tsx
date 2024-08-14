@@ -30,6 +30,7 @@ const generateImageUrl = (images: string) => {
 
 const ProductDetails = ({ product, meta }: produInterface) => {
   // const users = meta?.platform?.[0]?.recommendation_meta?.users_count;
+  const experts = product?.expert_count;
   const users = product?.recommended_count;
 
   return (
@@ -45,7 +46,12 @@ const ProductDetails = ({ product, meta }: produInterface) => {
         <div style={{ marginLeft: 10 }}>
           <ProductInfo
             item={product}
-            onClick={() => window.open(product?.redirection_link ?? "https://mylofamily.com/", "_blank")}
+            onClick={() =>
+              window.open(
+                product?.redirection_link ?? "https://mylofamily.com/",
+                "_blank"
+              )
+            }
           />
         </div>
         <div className="score">
@@ -62,8 +68,13 @@ const ProductDetails = ({ product, meta }: produInterface) => {
             <p className="subtext">recommended</p> */}
       <div className="card">
         <p className="rec-count">
-          <span>{kFormatter(users ?? 1824)}+ Users </span>like you recommended
-          this or similar products
+          <span>{kFormatter(users ?? 1824)}+ Users </span>like you recommend
+          similar products
+        </p>
+
+        <p className="rec-count">
+          <span>{kFormatter(experts ?? 1824)}+ Users </span>recommend similar
+          products
         </p>
         {/* <p className="rec-count">
           <span>{kFormatter(experts ?? 1527)}+ Experts </span>recommended this

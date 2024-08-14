@@ -8,6 +8,7 @@ import FindingMatches from "./components/FindingMatches/FindingMatches";
 import GoBack from "../../assets/svgs/GoBack";
 import Close from "../../assets/svgs/Close";
 import SkinAnalysis from "./components/SkinAnalysis/SkinAnalysis";
+import SelectFaceAnalysisOrQuiz from "./components/SelectFaceAnalysisOrQuiz/SelectFaceAnalysisOrQuiz";
 
 export interface RecommendationProps {
   show: boolean;
@@ -38,9 +39,13 @@ const Recommendations = (props: RecommendationProps) => {
   const [productSelected, setProductSelected] = useState({});
   const [selectedMeta, setSelectedMeta] = useState({});
 
-  const fetchProducts = (info: any) => {
-    const url = `https://app.unsweetenedbeauty.com/mylo/products/ai/data`;
-    const data = {skin_health : info?.skin_health}
+  const fetchProducts = (info: any, showQuiz: Boolean) => {
+    const url = showQuiz
+      ? `https://app.unsweetenedbeauty.com/mylo/products/quiz`
+      : `https://app.unsweetenedbeauty.com/mylo/products/ai/data`;
+    const data = showQuiz
+      ? { skinprofile: info }
+      : { skin_health: info?.skin_health };
     fetch(url, {
       method: "POST",
       headers: {
@@ -58,7 +63,7 @@ const Recommendations = (props: RecommendationProps) => {
         console.log("Success:THIS I SDATATTA HERE.....", data);
         // setProductsInfo(data);
         setProducts(data?.result);
-        setIndex(3);
+        setIndex(4);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -71,10 +76,12 @@ const Recommendations = (props: RecommendationProps) => {
     setIndex(4);
   };
 
+  const [showQuiz, setShowQuiz] = useState(false);
+
   return (
     <div className="popup">
       {/* <div className="popup-content"> */}
-      <div className={`popup-content ${index === 3 ? "index-2" : ""}`}>
+      <div className={`popup-content ${index === 4 ? "index-2" : ""}`}>
         <div className="row-between">
           <div
             style={{ cursor: "pointer" }}
@@ -100,23 +107,39 @@ const Recommendations = (props: RecommendationProps) => {
             }}
           />
         ) : index == 1 ? (
-          //   <SkinQuizPopup
-          //     onSubmit={(info) => {
-          //       setProfileInfo(info);
-          //       setIndex(2);
-          //       fetchProducts(info);
-          //     }}
-          //   />
-          <SkinAnalysis
-            onClick={(skinHealth) => {
+          <SelectFaceAnalysisOrQuiz
+            onClickQuiz={() => {
+              setShowQuiz(true);
               setIndex(2);
-              setProfileInfo(skinHealth);
-              fetchProducts(skinHealth);
+            }}
+            onClickFaceAnalysis={() => {
+              setShowQuiz(false);
+              setIndex(2);
             }}
           />
         ) : index == 2 ? (
-          <FindingMatches />
+          <>
+            {showQuiz ? (
+              <SkinQuizPopup
+                onSubmit={(info) => {
+                  setIndex(3);
+                  setProfileInfo(info);
+                  fetchProducts(info, true);
+                }}
+              />
+            ) : (
+              <SkinAnalysis
+                onClick={(skinHealth) => {
+                  setIndex(3);
+                  setProfileInfo(skinHealth);
+                  fetchProducts(skinHealth, false);
+                }}
+              />
+            )}
+          </>
         ) : index == 3 ? (
+          <FindingMatches />
+        ) : index == 4 ? (
           <ProductList
             products={products}
             productsInfo={productsInfo}
@@ -124,8 +147,9 @@ const Recommendations = (props: RecommendationProps) => {
             onClickProduct={(product, meta) => {
               onClickProduct(product, meta);
             }}
+            quizMode={showQuiz}
           />
-        ) : index == 4 ? (
+        ) : index == 5 ? (
           <ProductDetails product={productSelected} meta={selectedMeta} />
         ) : (
           <></>

@@ -71,22 +71,6 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
 
-  const handleComplete = (path: string) => {
-    index == 0
-      ? setFrontProfile(path)
-      : index == 1
-      ? setLeftProfile(path)
-      : setRightProfile(path);
-    if (index > 1) {
-      const data = {
-        front_image: frontProfile,
-        left_image: leftProfile,
-        right_image: path,
-      };
-      fetchSkinAnalysis(data);
-    } else setIndex(index + 1);
-  };
-
   const fetchSkinAnalysis = (data: any) => {
     const url = `https://app.unsweetenedbeauty.com/ai/skin/analysis`;
     // const url = "http://20.219.31.35:3002/skin/analysis";
@@ -115,6 +99,27 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
         console.error("Error:", error);
         setLoading(false);
       });
+  };
+
+  const handleComplete = (path: string) => {
+    index == 0
+      ? setFrontProfile(path)
+      : index == 1
+      ? setLeftProfile(path)
+      : setRightProfile(path);
+    // if (index > 1) {
+    console.log('This is index......', index);
+    
+      if (index >= 2) {
+        const data = {
+          front_image: frontProfile,
+          left_image: leftProfile,
+          right_image: path,
+        };
+        fetchSkinAnalysis(data);
+      } else {
+        setIndex(index + 1);
+      }
   };
 
   const fetchProductsToSelect = () => {

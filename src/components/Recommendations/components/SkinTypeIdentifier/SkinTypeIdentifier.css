@@ -59,6 +59,9 @@
 
   .row-between p {
     margin-right: 8px;
+    font-size: 14px;
+    color: #000;
+    font-weight: 500;
   }
 
   .row-end {
@@ -68,24 +71,30 @@
     margin-bottom: 8px;
   }
 
-  .skin-type {
+  .skin-type-res {
     background-color: '#E4E4E7';
     padding: 10px 16px;
     border-radius: 16px;
     align-self: center;
-    border-width: 1 solid #27272a;
-    border-bottom-width: 3px;
-    border-right-width: 3px
+    border: 1 solid #27272a !important;
+    border-bottom-width: 3px !important;
+    border-right-width: 3px !important
   }
 
-  .skin-type p {
+  .skin-type-res p {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 0;
     color: #27272a;
   }
 
-  .thnx-btn{
+
+  .skin-type-contain{
+    display: flex;
+    flex-direction: column
+  }
+
+  .skin-type-contain button{
     background-color: #27272a;
     border-radius: 6px;
     padding: 8px 16px;
@@ -93,7 +102,10 @@
     justify-content: center;
     margin-top: 24px;
     align-self: flex-end;
-    cursor: pointer
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+    border: 0;
   }
 
   .pointer {

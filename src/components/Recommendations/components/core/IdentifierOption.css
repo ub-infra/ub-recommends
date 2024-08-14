@@ -25,7 +25,8 @@
   display: flex;
   align-self: flex-start !important;
   margin-bottom: 6px;
-  max-width: 100%; /* Ensure it doesn't overflow its container */
+  max-width: 100%;
+  cursor: pointer;
 }
 
 .option p {
@@ -33,6 +34,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   margin: 0;
+  margin-bottom: 0;
   display: flex;
   text-align: flex-start;
   text-align: start;
