@@ -20,15 +20,16 @@ const SelectFaceAnalysisOrQuiz = ({onClickQuiz, onClickFaceAnalysis}: SelectFace
         }
         alt="Banner"
       />
-      <button onClick={onClickFaceAnalysis}>Start face analysis</button>
+      <button onClick={onClickQuiz}>Take Quiz</button>
+      {/* <button onClick={onClickFaceAnalysis}>Start face analysis</button> */}
 
-      <div className="btn-divider">
+      {/* <div className="btn-divider">
         <div className="border-line"></div>
         <p>OR</p>
         <div className="border-line"></div>
-      </div>
+      </div> */}
 
-      <button className="outlined" onClick={onClickQuiz}>Take Quiz instead</button>
+      {/* <button className="outlined" onClick={onClickQuiz}>Take Quiz instead</button> */}
     </div>
   );
 };

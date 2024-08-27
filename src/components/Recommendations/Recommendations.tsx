@@ -9,6 +9,7 @@ import GoBack from "../../assets/svgs/GoBack";
 import Close from "../../assets/svgs/Close";
 import SkinAnalysis from "./components/SkinAnalysis/SkinAnalysis";
 import SelectFaceAnalysisOrQuiz from "./components/SelectFaceAnalysisOrQuiz/SelectFaceAnalysisOrQuiz";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 export interface RecommendationProps {
   show: boolean;
@@ -100,6 +101,7 @@ const Recommendations = (props: RecommendationProps) => {
             <Close />
           </div>
         </div>
+        <ErrorBoundary onClick={() => setIndex(1)}>
         {index == 0 ? (
           <LandingPopup
             onClick={() => {
@@ -155,6 +157,7 @@ const Recommendations = (props: RecommendationProps) => {
         ) : (
           <></>
         )}
+        </ErrorBoundary>
       </div>
     </div>
   );

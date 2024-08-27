@@ -37,8 +37,8 @@
 }
 
 .captured-image {
-  width: 400px;
-  height: 600px;
+  width: 380px;
+  height: 560px;
   object-fit: cover;
 }
 

@@ -71,9 +71,11 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
 
+  const [errorMessage, setErrorMessage] = useState("");
   const fetchSkinAnalysis = (data: any) => {
     const url = `https://app.unsweetenedbeauty.com/ai/skin/analysis`;
     // const url = "http://20.219.31.35:3002/skin/analysis";
+    setErrorMessage("");
     setLoading(true);
     fetch(url, {
       method: "POST",
@@ -90,6 +92,12 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
         return response.json();
       })
       .then((data) => {
+        if (!data || Object.keys(data).length === 0) {
+          setErrorMessage(
+            "Please ensure that your face is well-lit and the images are clear to achieve accurate results."
+          );
+          throw new Error("Received empty or invalid data from the server.");
+        }
         console.log("Success:THIS I SDATATTA HERE..... ANANALYSIS...", data);
         setSkinResults(data);
         setLoading(false);
@@ -97,6 +105,9 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
       })
       .catch((error) => {
         console.error("Error:", error);
+        setErrorMessage(
+          "Please ensure that your face is well-lit and the images are clear to achieve accurate results."
+        );
         setLoading(false);
       });
   };
@@ -108,18 +119,18 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
       ? setLeftProfile(path)
       : setRightProfile(path);
     // if (index > 1) {
-    console.log('This is index......', index);
-    
-      if (index >= 2) {
-        const data = {
-          front_image: frontProfile,
-          left_image: leftProfile,
-          right_image: path,
-        };
-        fetchSkinAnalysis(data);
-      } else {
-        setIndex(index + 1);
-      }
+    console.log("This is index......", index);
+
+    if (index >= 2) {
+      const data = {
+        front_image: frontProfile,
+        left_image: leftProfile,
+        right_image: path,
+      };
+      fetchSkinAnalysis(data);
+    } else {
+      setIndex(index + 1);
+    }
   };
 
   const fetchProductsToSelect = () => {
@@ -156,64 +167,82 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
         <div className="prog-bar-active" />
         <div className={step > 0 ? "prog-bar-active" : "prog-bar"} />
       </div>
-      {step < 1 ? (
-        <p style={{ marginTop: 10 }}>
-          {index == 0
-            ? "Front Side"
-            : index == 1
-            ? "Left Profile"
-            : index == 2
-            ? "Right Profile"
-            : index == 3
-            ? "Your face analysis"
-            : ""}
-        </p>
-      ) : (
-        <></>
-      )}
-      {step < 1 && (
-        <p style={{ fontSize: 12, color: "grey", fontWeight: 300 }}>
-          {index == 3
-            ? "Your face analysis is ready. Check out your product matches now."
-            : "Get product matches via detailed face analysis."}
-        </p>
-      )}
-      {step > 0 ? (
-        <SelectFavouriteProducts
-          products={productsToSelect}
-          onClick={() => onClick(skinResults)}
-        />
+      {errorMessage ? (
+        <div style={{ display: "flex", flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="error-notification">{errorMessage}</div>
+          <button
+            className="tryAgainBtn"
+            onClick={() => {
+              setErrorMessage("");
+              setFrontProfile("");
+              setLeftProfile("");
+              setRightProfile("");
+              setIndex(0);
+            }}
+          >
+            Try Again
+          </button>
+        </div>
       ) : (
         <>
-          {loading ? (
-            <p>...</p>
+          {step < 1 ? (
+            <p style={{ marginTop: 10 }}>
+              {index == 0
+                ? "Front Side"
+                : index == 1
+                ? "Left Profile"
+                : index == 2
+                ? "Right Profile"
+                : index == 3
+                ? "Your face analysis"
+                : ""}
+            </p>
+          ) : (
+            <></>
+          )}
+          {step < 1 && (
+            <p style={{ fontSize: 12, color: "grey", fontWeight: 300 }}>
+              {index == 3
+                ? "Your face analysis is ready. Check out your product matches now."
+                : "Get product matches via detailed face analysis."}
+            </p>
+          )}
+          {step > 0 ? (
+            <SelectFavouriteProducts
+              products={productsToSelect}
+              onClick={() => onClick(skinResults)}
+            />
           ) : (
             <>
-              {index < 3 ? (
-                <WebcamCapture
-                  onComplete={(path) => handleComplete(path)}
-                  profile={index}
-                />
+              {loading ? (
+                <p>...</p>
               ) : (
-                <SkinAnalysisResult
-                  skinResults={skinResults}
-                  // frontProfile={frontProfile ?? "static/challenge/W/m/DDz0RC9_7s3VD6_wxAw0b.jpeg"}
-                  frontProfile={frontProfile}
-                  // onClick={onClick}
-                  onClick={() => setStep(1)}
-                  onClickReset={() => {
-                    setFrontProfile("");
-                    setLeftProfile("");
-                    setRightProfile("");
-                    setIndex(0);
-                  }}
-                />
+                <>
+                  {index < 3 ? (
+                    <WebcamCapture
+                      onComplete={(path) => handleComplete(path)}
+                      profile={index}
+                    />
+                  ) : (
+                    <SkinAnalysisResult
+                      skinResults={skinResults}
+                      // frontProfile={frontProfile ?? "static/challenge/W/m/DDz0RC9_7s3VD6_wxAw0b.jpeg"}
+                      frontProfile={frontProfile}
+                      // onClick={onClick}
+                      onClick={() => setStep(1)}
+                      onClickReset={() => {
+                        setFrontProfile("");
+                        setLeftProfile("");
+                        setRightProfile("");
+                        setIndex(0);
+                      }}
+                    />
+                  )}
+                </>
               )}
             </>
           )}
-        </>
-      )}
-      {/* <div
+          {/* <div
         style={{ height: 30, width: 100, backgroundColor: "red", margin: 24 }}
         onClick={
           () => setIndex(3)
@@ -224,6 +253,8 @@ const SkinAnalysis = ({ onClick }: SkinAnalysisProps) => {
           // })
         }
       ></div> */}
+        </>
+      )}
     </div>
   );
 };

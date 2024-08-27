@@ -1,19 +1,39 @@
-
 .row-between {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
 .prog-bar {
-    width: 49%;
-    border-radius: 24px;
-    background-color: #E4E4E7;
-    height: 12px;
+  width: 49%;
+  border-radius: 24px;
+  background-color: #e4e4e7;
+  height: 12px;
 }
-.prog-bar-active  {
-    width: 49%;
-    border-radius: 24px;
-    background-color: #27272A;
-    height: 12px;
+.prog-bar-active {
+  width: 49%;
+  border-radius: 24px;
+  background-color: #27272a;
+  height: 12px;
+}
+
+.error-notification {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 10px;
+  /* border: 1px solid red; */
+  border-radius: 5px;
+  margin: 30px 10px;
+  font-weight: 400;
+}
+
+.tryAgainBtn {
+  color: #fff;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 4px;
+  margin: 0 10px;
+  width: 100%;
+  font-size: 14px;
+  background-color: #27272a;
 }
