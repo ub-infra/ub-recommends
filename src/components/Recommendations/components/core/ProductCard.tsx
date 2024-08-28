@@ -36,7 +36,7 @@ const ProductCard = ({ item, meta, onClickProduct }: ProductProps) => {
 
   return (
     <>
-      {item?.mrp ? (
+      {item?.product_name ? (
         <div className="prod-card" onClick={onClickProduct}>
           <img
             src={item?.image_url}

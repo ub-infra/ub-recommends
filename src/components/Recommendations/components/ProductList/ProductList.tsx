@@ -74,6 +74,9 @@ const ProductList = ({
   }, [profileInfo]);
   // quizMode
 
+  const sortedProducts = products.sort((a: any, b: any) => b.match_score - a.match_score)
+  console.log('producta heree', sortedProducts);
+
   return (
     <div style={{ marginTop: 10 }}>
       <div className="product-list-container">
@@ -111,7 +114,7 @@ const ProductList = ({
         </div>
       </div>
       <div className="products-row">
-        {products?.map((item: any) => (
+        {sortedProducts?.map((item: any) => (
           <ProductCard
             item={item}
             meta={productsInfo?.product_meta?.[item?.id]}

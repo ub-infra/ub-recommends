@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Option from "../core/Option";
 import "./SkinQuizPopup.css";
-import { skinQuestions } from "../../constants/questions";
+import { hairQuestions, skinQuestions } from "../../constants/questions";
 import OptionSelected from "../core/OptionSelected";
 import GoBack from "../../../../assets/svgs/GoBack";
 import SkinTypeIdentifier from "../SkinTypeIdentifier/SkinTypeIdentifier";
@@ -27,9 +27,10 @@ interface ProfileInfoItem {
 
 interface PopupProps {
   onSubmit: (x: any) => void;
+  isSkinQuiz: boolean
 }
 
-const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
+const SkinQuizPopup = ({ onSubmit, isSkinQuiz }: PopupProps) => {
   const [show, setShow] = useState(false);
   const [profileInfo, setProfileInfo] = useState<ProfileInfoItem>({
     gender: "",
@@ -49,10 +50,10 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
   const [location, setLocation] = useState("");
 
   const [index, setIndex] = useState(0);
-  const questions = skinQuestions;
+  const questions = isSkinQuiz ? skinQuestions : hairQuestions;
 
   const { question, options, desc, key, placeholder, multiple } =
-    skinQuestions?.[index];
+  questions?.[index];
 
   const hanldeSetIndexValue = (val: any) => {
     const obj = { value: val, index: index, keyLabel: key };
@@ -121,8 +122,13 @@ const SkinQuizPopup = ({ onSubmit }: PopupProps) => {
   const onClickSubmit = () => {
     // setUserData(profileInfo);
     // router.push("/finding-matches");
-    console.log("subm,itting bvaluej....");
-    onSubmit(profileInfo);
+    // console.log("subm,itting bvaluej....");
+    const data = {
+      ...profileInfo,
+      issues: isSkinQuiz ? profileInfo?.skinGoals : profileInfo?.hairConcern,
+      type: isSkinQuiz ? "skin" : "hair",
+    };
+    onSubmit(data);
   };
 
   const handleClickNext = () => {

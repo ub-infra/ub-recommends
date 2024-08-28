@@ -42,10 +42,11 @@ const Recommendations = (props: RecommendationProps) => {
 
   const fetchProducts = (info: any, showQuiz: Boolean) => {
     const url = showQuiz
-      ? `https://app.unsweetenedbeauty.com/mylo/products/quiz`
+      // ? `https://app.unsweetenedbeauty.com/mylo/products/quiz`
+      ? 'https://app.unsweetenedbeauty.com/mylo/fw/products/ai/data'
       : `https://app.unsweetenedbeauty.com/mylo/products/ai/data`;
     const data = showQuiz
-      ? { skinprofile: info }
+      ? info
       : { skin_health: info?.skin_health };
     fetch(url, {
       method: "POST",
@@ -77,7 +78,8 @@ const Recommendations = (props: RecommendationProps) => {
     setIndex(4);
   };
 
-  const [showQuiz, setShowQuiz] = useState(false);
+  // const [showQuiz, setShowQuiz] = useState(false);
+  const [showSkinQuiz, setShowSkinQuiz] = useState(true);
 
   return (
     <div className="popup">
@@ -112,34 +114,42 @@ const Recommendations = (props: RecommendationProps) => {
         ) : index == 1 ? (
           <SelectFaceAnalysisOrQuiz
             onClickQuiz={() => {
-              setShowQuiz(true);
+              setShowSkinQuiz(true);
               setIndex(2);
             }}
             onClickFaceAnalysis={() => {
-              setShowQuiz(false);
+              setShowSkinQuiz(false);
               setIndex(2);
             }}
           />
         ) : index == 2 ? (
-          <>
-            {showQuiz ? (
-              <SkinQuizPopup
+          <SkinQuizPopup
                 onSubmit={(info) => {
                   setIndex(3);
                   setProfileInfo(info);
                   fetchProducts(info, true);
                 }}
+                isSkinQuiz={showSkinQuiz}
               />
-            ) : (
-              <SkinAnalysis
-                onClick={(skinHealth) => {
-                  setIndex(3);
-                  setProfileInfo(skinHealth);
-                  fetchProducts(skinHealth, false);
-                }}
-              />
-            )}
-          </>
+          // <>
+          //   {showQuiz ? (
+          //     <SkinQuizPopup
+          //       onSubmit={(info) => {
+          //         setIndex(3);
+          //         setProfileInfo(info);
+          //         fetchProducts(info, true);
+          //       }}
+          //     />
+          //   ) : (
+          //     <SkinAnalysis
+          //       onClick={(skinHealth) => {
+          //         setIndex(3);
+          //         setProfileInfo(skinHealth);
+          //         fetchProducts(skinHealth, false);
+          //       }}
+          //     />
+          //   )}
+          // </>
         ) : index == 3 ? (
           <FindingMatches />
         ) : index == 4 ? (
@@ -150,7 +160,7 @@ const Recommendations = (props: RecommendationProps) => {
             onClickProduct={(product, meta) => {
               onClickProduct(product, meta);
             }}
-            quizMode={showQuiz}
+            quizMode={true}
           />
         ) : index == 5 ? (
           <ProductDetails product={productSelected} meta={selectedMeta} />

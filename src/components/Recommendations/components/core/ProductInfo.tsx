@@ -20,7 +20,7 @@ const ProductInfo = ({ item, onClick }: ProductProps) => {
           : "Mylo Care"}
       </p>
       <p className="name" style={{ marginTop: 4 }}>
-        ₹{item?.mrp}{" "}
+        {item?.mrp ? `₹ ${item?.mrp}` : ""}{" "}
         {/* {item?.source_mrp && <span className='category'>
               ₹{item?.mrp}
             </span>} */}
